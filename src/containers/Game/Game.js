@@ -9,6 +9,7 @@ class Game extends Component {
     state = {
         targetScore: null,
         playing: false,
+        playerSum: 0,
         numbers: []
     }
 
@@ -25,22 +26,42 @@ class Game extends Component {
             // }
             // gameNumbers.push(number);
         }
-        for(let i=0;i<gameNumbers.length;i++) {
-            let j = Math.floor(Math.random() * (i + 1));
-            let temp = gameNumbers[i];
-            gameNumbers[i] = gameNumbers[j];
-            gameNumbers[j] = temp;
-        }
-        this.setState({targetScore: target, playing: true, numbers: gameNumbers});
+        console.log(this.state);
+        this.setState({targetScore: target, playing: true, numbers: gameNumbers, playerSum: 0});
+        console.log(this.state);
     }
 
     endGameHandler = () => {
-        this.setState({targetScore: null, playing: false, numbers: []})
+        this.reset();
+    }
+
+    reset = () => {
+        console.log(this.state);
+        this.setState({
+            targetScore: null,
+            playing: false,
+            numbers: [],
+            playerSum: 0
+        });
+        console.log(this.state);
+    }
+
+    numberClickhandler = (id) => {
+       let score = this.state.playerSum;
+       score+=this.state.numbers[id];
+       if(score===this.state.targetScore) {
+           alert("You win!");
+           this.reset();
+       } else if(score > this.state.targetScore) {
+           alert("You have lost the game. Please try again!");
+           this.reset();
+       }
+       this.setState({playerSum: score});
     }
 
     render() {
         const numbers = this.state.numbers.map(((number, index) => {
-            <Number value={number} />
+           return <Number value={number} key={index} clicked={() => this.numberClickhandler(index)}/>
         }));
         return (
             <div>
