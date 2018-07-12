@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import Target from '../../components/Game/Target/Target';
 import Result from '../../components/Game/Result/Result';
 import Button from '../../components/UI/Button/Button';
-import Number from '../../components/Game/Number/Number'
+import Number from '../../components/Game/Number/Number';
+import classes from './Game.css';
 
 class Game extends Component {
     state = {
@@ -64,7 +65,7 @@ class Game extends Component {
            return <Number value={number} key={index} clicked={() => this.numberClickhandler(index)}/>
         }));
         return (
-            <div>
+            <div className={classes.Game}>
                 <Button disabled={this.state.playing} clicked={this.startGameHandler}>Start Game</Button>
                 <Button disabled={!this.state.playing} clicked={this.endGameHandler}>End Game</Button>
                 <Target target={this.state.targetScore}/>
